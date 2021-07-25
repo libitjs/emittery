@@ -1,0 +1,15 @@
+{
+  "include": [
+    "dist"
+  ],
+  "extension": [
+    ".js",
+    ".ts"
+  ],
+  "reporter": [
+    "html",
+    "lcov",
+    "text"
+  ],
+  "exclude-after-remap": false
+}

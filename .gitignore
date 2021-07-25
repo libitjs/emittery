@@ -1,4 +1,13 @@
+.idea
 node_modules
-yarn.lock
-.nyc_output
+npm-debug.log
+.DS_Store
 coverage
+.nyc_output
+*.tgz
+.sandbox
+*.tsbuildinfo
+dist
+
+# ESLint cache
+.eslintcache

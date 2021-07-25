@@ -1,62 +1,62 @@
 #!/usr/bin/env node
 'use strict';
 
-const Emittery = require('..');
+const {Emittery} = require('..');
 
 class Clock extends Emittery {
-	constructor() {
-		super();
-		this.startedAt = 0;
-		this.timer = null;
-	}
+  constructor() {
+    super();
+    this.startedAt = 0;
+    this.timer = null;
+  }
 
-	tick() {
-		if (!this.timer) {
-			this.emit('error', new Error('Clock has not been started'));
-			return;
-		}
+  tick() {
+    if (!this.timer) {
+      this.emit('error', new Error('Clock has not been started'));
+      return;
+    }
 
-		const now = Date.now();
-		const duration = now - this.startedAt;
+    const now = Date.now();
+    const duration = now - this.startedAt;
 
-		this.emit('tick', {duration, now});
-	}
+    this.emit('tick', {duration, now});
+  }
 
-	start() {
-		if (this.timer) {
-			throw new Error('Clock has already been started');
-		}
+  start() {
+    if (this.timer) {
+      throw new Error('Clock has already been started');
+    }
 
-		this.startedAt = Date.now();
-		this.timer = setInterval(this.tick.bind(this), 1000);
+    this.startedAt = Date.now();
+    this.timer = setInterval(this.tick.bind(this), 1000);
 
-		this.emit('start');
-	}
+    this.emit('start');
+  }
 
-	stop() {
-		if (this.timer) {
-			clearInterval(this.timer);
-		}
+  stop() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
 
-		this.startedAt = 0;
-		this.timer = null;
+    this.startedAt = 0;
+    this.timer = null;
 
-		this.emit('stop');
-	}
+    this.emit('stop');
+  }
 }
 
 function onTick({duration}) {
-	console.log(Math.floor(duration / 1000));
+  console.log(Math.floor(duration / 1000));
 
-	if (duration >= 6000) {
-		stop();
-	}
+  if (duration >= 6000) {
+    stop();
+  }
 }
 
 function onError(error) {
-	process.exitCode = 1;
-	console.error(error);
-	stop();
+  process.exitCode = 1;
+  console.error(error);
+  stop();
 }
 
 const timer = new Clock();
@@ -64,9 +64,9 @@ const offTick = timer.on('tick', onTick);
 const offError = timer.on('error', onError);
 
 function stop() {
-	offTick();
-	offError();
-	timer.stop();
+  offTick();
+  offError();
+  timer.stop();
 }
 
 timer.start();
